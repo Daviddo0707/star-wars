@@ -37,9 +37,9 @@ const BarChart = () => {
                 {planets.map(({population, name}, i) => {
                     return (
                         <Styled.BarChartContainer key={i}>
-                            <Styled.Number>{population} </Styled.Number>
+                            <Styled.Text>{population} </Styled.Text>
                             <Styled.Bar height={(population/greatestHeight)*100} />
-                            <Styled.Title>{name}</Styled.Title>
+                            <Styled.Text>{name}</Styled.Text>
                         </Styled.BarChartContainer>
                     );
                 })}

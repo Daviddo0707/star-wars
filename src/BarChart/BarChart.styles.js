@@ -13,12 +13,7 @@ export const BarChartContainer = styled.div`
   margin-right: 50px;
 `;
 
-
-export const Number = styled.span`
-  font-size: 25px;
-  text-align: center;
-`;
-export  const Title = styled.span`
+export  const Text = styled.span`
   font-size: 25px;
   text-align: center;
 `
