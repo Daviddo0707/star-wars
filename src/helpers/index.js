@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const BASE_URL = "https://swapi.py4e.com/api/";
 
 export const getAllStarwarsVehicles = () => {
@@ -21,32 +22,38 @@ export const getAllStarwarsVehicles = () => {
         .then(response => response.reduce((acc, data) => [...acc, ...data.data.results], vehicles))
 }
 
-export const getVehiclePilots = (vehicle = {}) => {
-    const promises = [];
-    for (let i = 0; i < vehicle.pilots.length; i++) {
-        promises.push(axios(vehicle.pilots[i]));
+export const getVehiclePilots = async (vehicle = {}) => {
+    const promises = vehicle?.pilots?.map(pilot => axios(pilot));
+    try {
+        const response = await Promise.all(promises);
+        return response.map(({data}) => data);
+    } catch (e) {
+        throw new Error(e.message);
     }
-    return Promise.all(promises).then((response) => response.map((pilot) => pilot.data))
 }
 
-export const getPilotsPlanets = (pilots = []) => {
-    const promises = [];
-    const usedPlanets = [];
-    for (let i = 0; i < pilots.length; i++) {
-        if (!usedPlanets.includes(pilots[i].homeworld)) {
-            promises.push(axios(pilots[i].homeworld));
-            usedPlanets.push(pilots[i].homeworld)
+export const getPilotsPlanets = async (pilots = []) => {
+    const planets = []
+    const promises = pilots.map((pilot) => {
+        if (!planets.includes(pilot.homeworld)) {
+            planets.push(pilot.homeworld);
+            return axios(pilot.homeworld);
         }
-
+    });
+    try {
+        const response = await Promise.all(promises);
+        return response.map(({data}) => data);
+    } catch (e) {
+        throw new Error(e.message);
     }
-    return Promise.all(promises).then((response) => response.map((planet) => planet.data))
 }
 
-export const getPlanetsDetails = (planetsName = []) => {
-    const promises = [];
-    for (let i = 0; i < planetsName.length; i++) {
-        promises.push(axios(`${BASE_URL}planets/?search=${planetsName[i]}`));
+export const getPlanetsDetails = async (planetsName = []) => {
+    const promises = planetsName.map(planetName => axios(`${BASE_URL}planets/?search=${planetName}`));
+    try {
+        const response = await Promise.all(promises);
+        return response.map(({data}) => data.results[0]);
+    } catch (e) {
+        throw new Error(e.message);
     }
-
-    return Promise.all(promises).then((response) => response.map((planet) => planet.data.results[0]))
 }
