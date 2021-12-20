@@ -7,16 +7,16 @@ const PLANETS = ['Tatooine', 'Alderaan', 'Naboo', 'Bespin', 'Endor'];
 
 const BarChart = () => {
 
-    const [planets, setPlanets] = useState([])
-    const [apiMessage, setApiMessage] = useState("Loading...")
+    const [planets, setPlanets] = useState([]);
+    const [apiMessage, setApiMessage] = useState("Loading...");
 
     useEffect(() => {
         (async () => {
             try {
-                const planetsDetails = await getPlanetsDetails(PLANETS)
-                setPlanets(planetsDetails)
+                const planetsDetails = await getPlanetsDetails(PLANETS);
+                setPlanets(planetsDetails);
             } catch (error) {
-                setApiMessage("An error occurred while loading Star Wars data")
+                setApiMessage("An error occurred while loading Star Wars data");
             }
 
         })()
@@ -25,10 +25,9 @@ const BarChart = () => {
     const greatestValue = values => values.reduce((acc, cur) => (cur > acc ? cur : acc), -Infinity);
 
     const greatestHeight = greatestValue(planets.map(planet => {
-            return parseInt(planet.population)
+            return parseInt(planet.population);
         }
     ));
-
 
     return (
         <Fragment> {planets.length > 0 ?

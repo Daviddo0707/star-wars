@@ -5,7 +5,7 @@ import './MaxPopulationTable.css';
 
 const MaxPopulationTable = () => {
     const [maxSumPopulation, setMaxSumPopulation] = useState({});
-    const [apiMessage, setApiMessage] = useState("Loading...")
+    const [apiMessage, setApiMessage] = useState("Loading...");
 
     useEffect(() => {
         (async () => {
@@ -13,9 +13,8 @@ const MaxPopulationTable = () => {
                 const starwarsVehicles = await getAllStarwarsVehicles();
                 getMaxPopulationDetails(starwarsVehicles);
             } catch (error) {
-                setApiMessage("An error occurred while loading Star Wars data")
+                setApiMessage("An error occurred while loading Star Wars data");
             }
-
         })();
 
     }, []);
@@ -35,10 +34,10 @@ const MaxPopulationTable = () => {
                     pilots = await getVehiclePilots(starwarsVehicles[i]);
                     planets = await getPilotsPlanets(pilots);
                 } catch (error) {
-                    setApiMessage("An error occurred while loading Star Wars data")
+                    setApiMessage("An error occurred while loading Star Wars data");
                     break;
                 }
-                vehiclePlanetsPopulationSum = planets.reduce((accum, item) => accum + !isNaN(item.population) ? parseInt(item.population) : 0, 0)
+                vehiclePlanetsPopulationSum = planets.reduce((accum, item) => accum + !isNaN(item.population) ? parseInt(item.population) : 0, 0);
                 if (maxSum < vehiclePlanetsPopulationSum) {
                     maxSum = vehiclePlanetsPopulationSum;
                     maxSumVehicle = starwarsVehicles[i];
@@ -47,7 +46,7 @@ const MaxPopulationTable = () => {
                 }
             }
         }
-        setMaxSumPopulation({vehicle: maxSumVehicle, pilots: maxSumPilots, planets: maxSumPlanets})
+        setMaxSumPopulation({vehicle: maxSumVehicle, pilots: maxSumPilots, planets: maxSumPlanets});
     }
 
     return (
